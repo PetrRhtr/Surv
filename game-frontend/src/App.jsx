@@ -1,19 +1,23 @@
-import React, { useState } from 'react';
-import StartScreen from './components/StartScreen.jsx';
-import GameCanvas from './components/GameCanvas.jsx';
+import React, { useState } from "react";
+import StartScreen from "./components/StartScreen";
+import GameCanvas from "./components/GameCanvas";
 
 function App() {
-  const [showGame, setShowGame] = useState(false);
+    const [isGameRunning, setGameStarted] = useState(false);
 
-  const startGame = () => {
-    setShowGame(true);
-  };
+    const handleStartGame = () => {
+        setGameStarted(true);
+    };
 
-  return (
-    <div>
-      {showGame ? <GameCanvas /> : <StartScreen onStart={startGame} />}
-    </div>
-  );
+    return (
+        <div>
+            {isGameRunning ? (
+                <GameCanvas />
+            ) : (
+                <StartScreen onStart={handleStartGame} />
+            )}
+        </div>
+    );
 }
 
 export default App;
