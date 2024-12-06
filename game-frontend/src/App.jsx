@@ -1,10 +1,19 @@
+import React, { useState } from 'react';
+import StartScreen from './components/StartScreen.jsx';
+import GameCanvas from './components/GameCanvas.jsx';
+
 function App() {
-    return (
-        <div>
-            <h1>Willkommen zu deinem Spiel!</h1>
-            <button>Spiel starten</button>
-        </div>
-    );
+  const [showGame, setShowGame] = useState(false);
+
+  const startGame = () => {
+    setShowGame(true);
+  };
+
+  return (
+    <div>
+      {showGame ? <GameCanvas /> : <StartScreen onStart={startGame} />}
+    </div>
+  );
 }
 
 export default App;

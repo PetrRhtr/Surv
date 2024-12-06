@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'YouMurderer';
+    src: url('../assets/fonts/youmurdererbbreg.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: '28DaysLater';
+    src: url('../assets/fonts/28DaysLater.ttf') format('truetype');
+}
+
+/* StartScreen.css */
+.start-screen {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: url('public/images/start_background.png') center/cover no-repeat;
+  }
+  
+  .start-title {
+    font-family: '28DaysLater', sans-serif;
+    font-size: 30rem;
+    color: white;
+    opacity: 70%;
+    text-shadow: 2px 2px 5px black;
+    margin-bottom: 2rem;
+  }
+  
+  .start-button {
+    padding: 1rem 2rem;
+    font-size: 3rem;
+    font-family: 'YouMurderer', sans-serif;
+    color: white;
+    background-color: red;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    transition: transform 0.2s, background-color 0.2s;
+    opacity: 80%;
+  }
+  
+  .start-button:hover {
+    background-color: darkred;
+  }
+  
