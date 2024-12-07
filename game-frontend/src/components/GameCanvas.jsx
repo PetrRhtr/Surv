@@ -1,78 +1,48 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useEffect } from "react";
+import "../styles/GameCanvas.css";
+import Player from "./Player";
 
-const images = {
-    right: '/images/newplayer_right.png',
-    middle: '/images/newplayer_middle.png',
-    left: '/images/newplayer_left.png',
-};
 
-const GameCanvas = () => {
+
+const GameCanvas = ({ backgroundImage, onNextLevel }) => {
     const canvasRef = useRef(null);
-    const [player, setPlayer] = useState({
-        x: window.innerWidth / 2,
-        y: window.innerHeight / 2,
-        width: 60,
-        height: 100,
-        direction: 'middle', // 'left', 'right', oder 'middle'
-    });
 
     useEffect(() => {
         const canvas = canvasRef.current;
-        const context = canvas.getContext('2d');
+        if (!canvas) return;
+        const context = canvas.getContext("2d");
 
-        const drawPlayer = () => {
-            const img = new Image();
-            img.src = images[player.direction]; // Das Bild basierend auf der Bewegungsrichtung
-            img.onload = () => {
-                context.clearRect(0, 0, canvas.width, canvas.height); // Canvas leeren
-                context.drawImage(
-                    img,
-                    player.x - player.width / 2,
-                    player.y - player.height / 2,
-                    player.width,
-                    player.height
-                );
-            };
+        // Initialisiere die Canvas-Größe
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Hintergrund rendern
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        const background = new Image();
+        background.src = backgroundImage;
+
+        background.onload = () => {
+            context.drawImage(background, 0, 0, canvas.width, canvas.height);
         };
 
-        drawPlayer();
-    }, [player]);
+        // Eventlistener für Levelwechsel
+        const handleKeyPress = (event) => {
+            if (event.key === "n") {
+                onNextLevel();
+            }
+        };
+        window.addEventListener("keydown", handleKeyPress);
 
-    const handleKeyDown = (e) => {
-        setPlayer((prev) => {
-            const newPlayer = { ...prev };
-            if (e.key === 'ArrowLeft') {
-                newPlayer.x -= 10;
-                newPlayer.direction = 'left';
-            }
-            if (e.key === 'ArrowRight') {
-                newPlayer.x += 10;
-                newPlayer.direction = 'right';
-            }
-            if (e.key === 'ArrowUp') {
-                newPlayer.y -= 10;
-                newPlayer.direction = 'middle';
-            }
-            if (e.key === 'ArrowDown') {
-                newPlayer.y += 10;
-                newPlayer.direction = 'middle';
-            }
-            return newPlayer;
-        });
-    };
-
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyDown);
-        return () => window.removeEventListener('keydown', handleKeyDown);
-    }, []);
+        return () => {
+            window.removeEventListener("keydown", handleKeyPress);
+        };
+    }, [backgroundImage, onNextLevel]);
 
     return (
-        <canvas
-            ref={canvasRef}
-            width={window.innerWidth}
-            height={window.innerHeight}
-            className="game-canvas"
-        />
+        <div className="game-canvas">
+            <canvas id="gameCanvas" ref={canvasRef} />
+            <Player canvasRef={canvasRef} />
+        </div>
     );
 };
 
