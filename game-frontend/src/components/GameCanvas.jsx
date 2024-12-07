@@ -1,8 +1,7 @@
-import React, { useRef, useEffect } from "react";
+import { useRef, useEffect } from "react";
 import "../styles/GameCanvas.css";
 import Player from "./Player";
-
-
+import PropTypes from "prop-types";
 
 const GameCanvas = ({ backgroundImage, onNextLevel }) => {
     const canvasRef = useRef(null);
@@ -44,6 +43,12 @@ const GameCanvas = ({ backgroundImage, onNextLevel }) => {
             <Player canvasRef={canvasRef} />
         </div>
     );
+};
+
+// PropTypes hinzufügen
+GameCanvas.propTypes = {
+    backgroundImage: PropTypes.string.isRequired, // Hintergrundbild ist erforderlich
+    onNextLevel: PropTypes.func, // Levelwechsel-Funktion (optional)
 };
 
 export default GameCanvas;

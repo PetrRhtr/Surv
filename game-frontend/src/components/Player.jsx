@@ -1,43 +1,12 @@
 import { useEffect, useState } from "react";
-
+import PropTypes from "prop-types";
 
 const imageFrames = {
-    left: [
-        "/images/Walk 1.png",
-        "/images/Walk 2.png",
-        "/images/Walk 3.png",
-        "/images/Walk 4.png",
-        "/images/Walk 5.png",
-        "/images/Walk 6.png",
-        "/images/Walk 7.png",
-        "/images/Walk 8.png",
-        "/images/Walk 9.png",
-        "/images/Walk 10.png"
-    ],
-    right: [
-        "/images/Walk 1.png",
-        "/images/Walk 2.png",
-        "/images/Walk 3.png",
-        "/images/Walk 4.png",
-        "/images/Walk 5.png",
-        "/images/Walk 6.png",
-        "/images/Walk 7.png",
-        "/images/Walk 8.png",
-        "/images/Walk 9.png",
-        "/images/Walk 10.png"
-    ],
-    middle: [
-        "/images/Idle1.png",
-        "/images/Idle 2.png",
-        "/images/Idle 3.png",
-        "/images/Idle 4.png",
-        "/images/Idle 5.png",
-        "/images/Idle 6.png",
-        "/images/Idle 7.png",
-        "/images/Idle 8.png",
-        "/images/Idle 9.png",
-        "/images/Idle 10.png"
-    ],
+    left: ["/images/Walk 1.png", /* weitere Bilder */],
+    right: ["/images/Walk 1.png", /* weitere Bilder */],
+    middle: ["/images/Idle1.png", /* weitere Bilder */],
+    up: ["/images/Walk 1.png", /* weitere Bilder */],
+    down: ["/images/Walk 1.png", /* weitere Bilder */],
 };
 
 const Player = ({ canvasRef }) => {
@@ -47,8 +16,8 @@ const Player = ({ canvasRef }) => {
         width: 60,
         height: 80,
         speed: 8,
-        direction: "middle", // "left", "right", or "middle"
-        frameIndex: 0, // Aktuelles Frame der Animation
+        direction: "middle", 
+        frameIndex: 0, 
     });
 
     useEffect(() => {
@@ -66,12 +35,14 @@ const Player = ({ canvasRef }) => {
                     newDirection = "right";
                 } else if (e.key === "ArrowUp") {
                     newY -= prev.speed;
+                    newDirection = "up";
                 } else if (e.key === "ArrowDown") {
                     newY += prev.speed;
+                    newDirection = "down";
                 }
 
                 // Begrenzungen des Spielfeldes
-                if (canvasRef.current) {
+                if (canvasRef?.current) {
                     const canvas = canvasRef.current;
                     newX = Math.max(0, Math.min(canvas.width - prev.width, newX));
                     newY = Math.max(0, Math.min(canvas.height - prev.height, newY));
@@ -106,7 +77,7 @@ const Player = ({ canvasRef }) => {
     }, []);
 
     useEffect(() => {
-        const canvas = canvasRef.current;
+        const canvas = canvasRef?.current;
         if (!canvas) return;
         const context = canvas.getContext("2d");
 
@@ -126,6 +97,10 @@ const Player = ({ canvasRef }) => {
     }, [player, canvasRef]);
 
     return null;
+};
+
+Player.propTypes = {
+    canvasRef: PropTypes.object.isRequired, // `canvasRef` muss ein Objekt sein
 };
 
 export default Player;
