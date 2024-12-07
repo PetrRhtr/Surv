@@ -1,16 +1,56 @@
 import React, { useEffect, useState } from "react";
 
+
+const imageFrames = {
+    left: [
+        "/images/Walk 1.png",
+        "/images/Walk 2.png",
+        "/images/Walk 3.png",
+        "/images/Walk 4.png",
+        "/images/Walk 5.png",
+        "/images/Walk 6.png",
+        "/images/Walk 7.png",
+        "/images/Walk 8.png",
+        "/images/Walk 9.png",
+        "/images/Walk 10.png"
+    ],
+    right: [
+        "/images/Walk 1.png",
+        "/images/Walk 2.png",
+        "/images/Walk 3.png",
+        "/images/Walk 4.png",
+        "/images/Walk 5.png",
+        "/images/Walk 6.png",
+        "/images/Walk 7.png",
+        "/images/Walk 8.png",
+        "/images/Walk 9.png",
+        "/images/Walk 10.png"
+    ],
+    middle: [
+        "/images/Idle 1.png",
+        "/images/Idle 2.png",
+        "/images/Idle 3.png",
+        "/images/Idle 4.png",
+        "/images/Idle 5.png",
+        "/images/Idle 6.png",
+        "/images/Idle 7.png",
+        "/images/Idle 8.png",
+        "/images/Idle 9.png",
+        "/images/Idle 10.png"
+    ],
+};
+
 const Player = ({ canvasRef }) => {
     const [player, setPlayer] = useState({
-        x: window.innerWidth / 2 - 25, // Start in der Mitte der Canvas
-        y: window.innerHeight / 2 - 25,
-        width: 60,
-        height: 100,
-        speed: 8,
+        x: 0,
+        y: 0,
+        width: 50,
+        height: 50,
+        speed: 5,
         direction: "middle", // "left", "right", or "middle"
+        frameIndex: 0, // Aktuelles Frame der Animation
     });
 
-    // Bewegung des Spielers basierend auf Tasten
     useEffect(() => {
         const handleKeyDown = (e) => {
             setPlayer((prev) => {
@@ -54,25 +94,26 @@ const Player = ({ canvasRef }) => {
         };
     }, [canvasRef]);
 
-    // Spieler zeichnen
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setPlayer((prev) => ({
+                ...prev,
+                frameIndex: (prev.frameIndex + 1) % imageFrames[prev.direction].length,
+            }));
+        }, 200); // Ändert das Bild alle 200ms
+
+        return () => clearInterval(interval);
+    }, []);
+
     useEffect(() => {
         const canvas = canvasRef.current;
         if (!canvas) return;
         const context = canvas.getContext("2d");
 
-        // Bild des Spielers basierend auf der Richtung laden
         const playerImage = new Image();
-        if (player.direction === "left") {
-            playerImage.src = "/images/newplayer_left.png";
-        } else if (player.direction === "right") {
-            playerImage.src = "/images/newplayer_right.png";
-        } else {
-            playerImage.src = "/images/newplayer_middle.png";
-        }
+        playerImage.src = imageFrames[player.direction][player.frameIndex];
 
-        // Spielerbild nach dem Laden zeichnen
         playerImage.onload = () => {
-            // Canvas leeren und Spieler zeichnen
             context.clearRect(0, 0, canvas.width, canvas.height);
             context.drawImage(
                 playerImage,
@@ -81,11 +122,6 @@ const Player = ({ canvasRef }) => {
                 player.width,
                 player.height
             );
-        };
-
-        // Fehler beim Laden des Bildes abfangen
-        playerImage.onerror = () => {
-            console.error("Fehler beim Laden des Spielerbildes:", playerImage.src);
         };
     }, [player, canvasRef]);
 
