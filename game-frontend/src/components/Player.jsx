@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 
 const imageFrames = {
@@ -27,7 +27,7 @@ const imageFrames = {
         "/images/Walk 10.png"
     ],
     middle: [
-        "/images/Idle 1.png",
+        "/images/Idle1.png",
         "/images/Idle 2.png",
         "/images/Idle 3.png",
         "/images/Idle 4.png",
@@ -42,11 +42,11 @@ const imageFrames = {
 
 const Player = ({ canvasRef }) => {
     const [player, setPlayer] = useState({
-        x: 0,
-        y: 0,
-        width: 50,
-        height: 50,
-        speed: 5,
+        x: 850,
+        y: 500,
+        width: 60,
+        height: 80,
+        speed: 8,
         direction: "middle", // "left", "right", or "middle"
         frameIndex: 0, // Aktuelles Frame der Animation
     });
