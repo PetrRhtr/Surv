@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-
-const imageFrames = {
-    left: ["/images/Walk 1.png", /* weitere Bilder */],
-    right: ["/images/Walk 1.png", /* weitere Bilder */],
-    middle: ["/images/Idle1.png", /* weitere Bilder */],
-    up: ["/images/Walk 1.png", /* weitere Bilder */],
-    down: ["/images/Walk 1.png", /* weitere Bilder */],
-};
+import imageFrames from "../assets/imageFrames"
 
 const Player = ({ canvasRef }) => {
     const [player, setPlayer] = useState({

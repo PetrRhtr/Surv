@@ -1,5 +1,12 @@
+body {
+    margin: 0; /* Entfernt den Standard-Rand des Browsers */
+    padding: 0;
+    overflow: hidden; /* Verhindert jegliches Scrollen */
+}
+
 .game-canvas {
     display: block;
+    box-sizing: border-box;
     width: 100vw;
     height: 100vh;
     margin: 0;
